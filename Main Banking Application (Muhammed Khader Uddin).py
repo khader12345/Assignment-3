@@ -26,13 +26,17 @@ class Account:
          self._interest_rate=recent_rate
       
      def deposit(self, value):
-         self._present_balance+=value
+         if value > 0:
+             self._present_balance+=value
+             print(f"*Deposited {value} CAD | New balance: {self._present_balance}*")
+         else:
+             print("*Incorrect deposit amount please enter a positive amount*")
 
      def wihtdraw(self, value):
          if value <=self._present_balance:
              self._present_balance-=value
          else:
-             print("*Insufficient funds, withdrawal of funds not permitted*")
+             print("*Insufficient funds withdrawal denied*")
 
 class savingsAccount(Account):
     def __init__(self, account_code, account_user_name, interest_rate, present_balance, minimum_bal):
@@ -108,9 +112,40 @@ class Application:
                 break
             else:
                 ("*Invalid option please enter the correct option*")
-    
+
+    def have_real_value(self, message):
+        while True:
+            try:
+                value=float(input(message))
+                if value<0:
+                    print("*Invalid value please enter a positive value*")
+                else:
+                    return value
+            except ValueError:
+                print("*Incorrect input please input the correct number*")
+
     def run(self):
         self.Show_Main_Menu()
+
+class bank:
+    def __init__(self):
+        self.variousaccounts=[]
+
+        self.variousaccounts.appaend(chequingAccount("111222", "ABC", 2, 1000, 5000))
+        self.variousaccounts.appaend(chequingAccount("222333", "DEF", 2, 200, 5000))
+        self.variousaccounts.appaend(chequingAccount("333444", "GHI", 3, 1000, 5000))
+        self.variousaccounts.appaend(chequingAccount("444555", "JKL", 2, 200, 5000))
+        self.variousaccounts.appaend(savingsAccount("555666", "MNO", 1.5, 3000, 1000))
+        self.variousaccounts.appaend(savingsAccount("666777", "PQR", 1.5, 2000, 800))
+        self.variousaccounts.appaend(savingsAccount("777888", "STU", 2, 4000, 1500))
+        self.variousaccounts.appaend(savingsAccount("888999", "VWX", 3, 5000, 2500))
+
+    def find_account(self, account_code):
+        for variousaccounts in self.variousaccounts:
+            if variousaccounts.get_variousaccounts()==variousaccounts:
+                return variousaccounts
+            return None
+        
 
 app=Application()
 app.run()
