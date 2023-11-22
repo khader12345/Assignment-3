@@ -1,3 +1,40 @@
+
+
+class Account:
+     def __init__(self, account_code, account_user_name, interest_rate, present_balance = 0):
+        self._account_code=account_code
+        self._account_user_name=account_user_name
+        self._present_balance=present_balance
+        self._interest_rate=interest_rate
+
+     def have_account_code(self):
+        return self._account_code
+     
+     def have_account_user_name(self):
+         return self._account_user_name
+     
+     def have_interest_rate(self):
+         return self._interest_rate
+     
+     def have_present_balance(self):
+         return self._present_balance
+     
+     def set_account_user_name(self, recent_name):
+         self._account_user_name=recent_name
+
+     def set_interest_rate(self, recent_rate):
+         self._interest_rate=recent_rate
+      
+     def deposit(self, value):
+         self._present_balance+=value
+
+     def wihtdraw(self, value):
+         if value <=self._present_balance:
+             self._present_balance-=value
+         else:
+             print("*Insufficient funds, withdrawal of funds not permitted*")
+             
+
 class Application:
     def __init__(self):
         self.variousaccounts = {}
@@ -22,7 +59,7 @@ class Application:
             elif options=='2':
                 pass
             elif options=='3':
-                print("*You are now exiting the banking system. Have a great day!*")
+                print("*You have now exited the banking system. Have a great day!*")
                 break
             else:
                 print("*Invalid option please enter the correct option*")
