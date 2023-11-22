@@ -34,8 +34,17 @@ class Account:
          else:
              print("*Insufficient funds, withdrawal of funds not permitted*")
 
-             
-             
+class savingsAccount(Account):
+    def __init__(self, account_code, account_user_name, interest_rate, present_balance, minimum_bal):
+        super().__init__(account_code, account_user_name, interest_rate, present_balance)
+        self._minimum_bal=minimum_bal
+
+    def withdraw(self, value):
+        if self._present_balance-value>=self._minimum_bal:
+            super().withdraw(value)
+        else:
+            print("*Withdrawal rejected, insufficient funds to maintain the minimum balance*")
+
 class Application:
     def __init__(self):
         self.variousaccounts = {}
