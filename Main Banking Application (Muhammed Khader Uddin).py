@@ -18,7 +18,7 @@ class Account:
      
      def have_present_balance(self):
          return self._present_balance
-     
+
      def set_account_user_name(self, recent_name):
          self._account_user_name=recent_name
 
@@ -33,8 +33,8 @@ class Account:
              self._present_balance-=value
          else:
              print("*Insufficient funds, withdrawal of funds not permitted*")
-             
 
+             
 class Application:
     def __init__(self):
         self.variousaccounts = {}
