@@ -58,7 +58,7 @@ class chequingAccount(Account):
             return f"*Withdrew {value} CAD. New balance: {self.get_present_balance()}"
 class Application:
     def __init__(self):
-        self.variousaccounts = {}
+        self.variousaccounts = []
         self.presentAccount = None
 
     def Show_Main_Menu(self):
@@ -71,12 +71,7 @@ class Application:
             options = input("Please enter your choice: ")
 
             if options=='1':
-                account_code = input("Please enter the account code: ")
-                if account_code in self.variousaccounts:
-                    self.presentAccount=self.variousaccounts[account_code]
-                    self.Show_Account_Menu()
-                else: 
-                    print("*Account can not be verified please enter the correct code*")
+                self.choosing_account()
             elif options=='2':
                 self.open_new_account()
                 pass
