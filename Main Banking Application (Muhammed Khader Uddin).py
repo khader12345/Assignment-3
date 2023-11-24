@@ -58,8 +58,7 @@ class chequingAccount(Account):
             return f"*Withdrew {value} CAD. New balance: {self.getCurrentBalance()}"
 class Application:
     def __init__(self):
-        self.variousaccounts = []
-        self.presentAccount = None
+        self.bank = Bank()
 
     def Show_Main_Menu(self):
         while True:
@@ -83,7 +82,7 @@ class Application:
 
     def choosing_account(self):
         accountNumber=input("Please enter the account number: ")
-        account=bank.find_account(accountNumber)
+        account=self.bank.find_account(accountNumber)
         if account:
             self.presentAccount=account
             self.Show_Account_Menu()
@@ -94,7 +93,7 @@ class Application:
         account_type=input("Please enter account type (Savings or Chequing): ")
         accountNumber=input("Please enter the account number: ")
         accountHolderName=input("Please enter the accounts owners name: ")
-        rateOfinterest=input("Please the rate of interest: ")
+        rateOfinterest=input("Please enter the rate of interest: ")
         currentBalance=input("Please enter the current balance: ")
 
         if account_type=="Savings":
@@ -176,14 +175,16 @@ class Bank:
             return
         self.variousaccounts.append(new_opened_account)
         print(F"*Your new {account_type} account has now been opened successfully*")
+
+
+if __name__=="_main_":
+    bank=Bank()
+
+    bank_app=Application()
+    bank_app.variousaccounts=bank.variousaccounts
         
 
 app=Application()
 app.run()
-
-
-
-
-
 
 
