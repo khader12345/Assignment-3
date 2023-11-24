@@ -119,20 +119,20 @@ class Application:
             options=input("Please enter your choice (1,2,3 or 4): ")
 
             if options=='1':
-                print(f"Current Account Balance: ${self.presentAccount.have_present_balance()}")
+                print(f"Current Account Balance: ${self.presentAccount.get_present_balance()}")
             elif options=='2':
-                value = float(input("Please enter the amount you would like to deposit: $"))
-                self.presentAccount.deposit(value)
+                value = self.get_real_value("Please enter the amount you would like to deposit: $")
+                print(self.presentAccount.deposit(value))
             elif options=='3':
-                value = float(input("Please enter the amount you would like to withdraw: $"))
-                self.presentAccount.withdraw(value)
+                value = self.get_real_value(input("Please enter the amount you would like to withdraw: $"))
+                print(self.presentAccount.withdraw(value))
             elif options=='4':
                 print("*You have now exited the account menu*")
                 break
             else:
                 ("*Invalid option please enter the correct option*")
 
-    def have_real_value(self, message):
+    def get_real_value(self, message):
         while True:
             try:
                 value=float(input(message))
