@@ -1,46 +1,41 @@
 
 
 class Account:
-     def __init__(self, account_code, account_user_name, interest_rate, present_balance = 0):
-        self._account_code=account_code
-        self._account_user_name=account_user_name
+     def __init__(self, account_code, account_holder, rate_of_interest, present_balance = 0):
+        self._account_number=account_code
+        self._account_holder=account_holder
         self._present_balance=present_balance
-        self._interest_rate=interest_rate
+        self.rate_of_interest=rate_of_interest
 
-     def have_account_code(self):
+     def get_account_number(self):
         return self._account_code
      
-     def have_account_user_name(self):
+     def get_account_holder(self):
          return self._account_user_name
      
-     def have_interest_rate(self):
+     def get_rate_of_interest(self):
          return self._interest_rate
      
-     def have_present_balance(self):
+     def get_present_balance(self):
          return self._present_balance
 
-     def set_account_user_name(self, recent_name):
+     def set_account_holder(self, recent_name):
          self._account_user_name=recent_name
 
-     def set_interest_rate(self, recent_rate):
-         self._interest_rate=recent_rate
+     def set_rate_of_interest(self, recent_rate):
+         self._interest_of_rate=recent_rate
       
      def deposit(self, value):
-         if value > 0:
              self._present_balance+=value
-             print(f"*Deposited {value} CAD | New balance: {self._present_balance}*")
-         else:
-             print("*Incorrect deposit amount please enter a positive amount*")
-
+             return f"*Deposited {value} CAD | New balance: {self._present_balance:.2f}*"
+     
      def wihtdraw(self, value):
-         if value <=self._present_balance:
              self._present_balance-=value
-         else:
-             print("*Insufficient funds withdrawal denied*")
-
+             return f"*Withdraw {value} CAD | New balance: {self._present_balance:.2f}"
+        
 class savingsAccount(Account):
-    def __init__(self, account_code, account_user_name, interest_rate, present_balance, minimum_bal):
-        super().__init__(account_code, account_user_name, interest_rate, present_balance)
+    def __init__(self, account_code, account_holder, interest_rate, present_balance, minimum_bal):
+        super().__init__(account_code, account_holder, interest_rate, present_balance)
         self._minimum_bal=minimum_bal
 
     def withdraw(self, value):
@@ -50,9 +45,9 @@ class savingsAccount(Account):
             print("*Withdrawal rejected, insufficient funds to maintain the minimum balance*")
 
 class chequingAccount(Account):
-    def __init__(self, account_code, account_user_name, interest_rate, present_balance, over_lim):
-        super().__init__(account_code, account_user_name, interest_rate, present_balance)
-        self.over_lim=over_lim
+    def __init__(self, account_code, account_holder, interest_rate, present_balance, over_lim):
+        super().__init__(account_code, account_holder, interest_rate, present_balance)
+        self._over_lim=over_lim
 
     def withdraw(self, value):
         if self.have_present_balance()+self._over_lim>=value:
@@ -76,12 +71,13 @@ class Application:
 
             if options=='1':
                 account_code = input("Please enter the account code: ")
-                if account_code in self.account_code:
+                if account_code in self.variousaccounts:
                     self.presentAccount=self.variousaccounts[account_code]
                     self.Show_Account_Menu()
                 else: 
                     print("*Account can not be verified please enter the correct code*")
             elif options=='2':
+                self.open_new_account()
                 pass
             elif options=='3':
                 print("*You have now exited the banking system. Have a great day!*")
@@ -101,12 +97,13 @@ class Application:
             options=input("Please enter your choice (1,2,3 or 4): ")
 
             if options=='1':
-                print(f"Current Account Balance: ${self.presentAccount.check_balance()}")
+                print(f"Current Account Balance: ${self.presentAccount.have_present_balance()}")
             elif options=='2':
                 value = float(input("Please enter the amount you would like to deposit: $"))
-                print (self.presentaccount.deposit(value))
+                self.presentAccount.deposit(value)
             elif options=='3':
                 value = float(input("Please enter the amount you would like to withdraw: $"))
+                self.presentAccount.withdraw(value)
             elif options=='4':
                 print("*You have now exited the account menu*")
                 break
@@ -131,20 +128,32 @@ class bank:
     def __init__(self):
         self.variousaccounts=[]
 
-        self.variousaccounts.appaend(chequingAccount("111222", "ABC", 2, 1000, 5000))
-        self.variousaccounts.appaend(chequingAccount("222333", "DEF", 2, 200, 5000))
-        self.variousaccounts.appaend(chequingAccount("333444", "GHI", 3, 1000, 5000))
-        self.variousaccounts.appaend(chequingAccount("444555", "JKL", 2, 200, 5000))
-        self.variousaccounts.appaend(savingsAccount("555666", "MNO", 1.5, 3000, 1000))
-        self.variousaccounts.appaend(savingsAccount("666777", "PQR", 1.5, 2000, 800))
-        self.variousaccounts.appaend(savingsAccount("777888", "STU", 2, 4000, 1500))
-        self.variousaccounts.appaend(savingsAccount("888999", "VWX", 3, 5000, 2500))
+        self.variousaccounts.append(chequingAccount("111222", "ABC", 2, 1000, 5000))
+        self.variousaccounts.append(chequingAccount("222333", "DEF", 2, 200, 5000))
+        self.variousaccounts.append(chequingAccount("333444", "GHI", 3, 1000, 5000))
+        self.variousaccounts.append(chequingAccount("444555", "JKL", 2, 200, 5000))
+        self.variousaccounts.append(savingsAccount("555666", "MNO", 1.5, 3000, 1000))
+        self.variousaccounts.append(savingsAccount("666777", "PQR", 1.5, 2000, 800))
+        self.variousaccounts.append(savingsAccount("777888", "STU", 2, 4000, 1500))
+        self.variousaccounts.append(savingsAccount("888999", "VWX", 3, 5000, 2500))
 
     def find_account(self, account_code):
-        for variousaccounts in self.variousaccounts:
-            if variousaccounts.get_variousaccounts()==variousaccounts:
-                return variousaccounts
+        for account in self.variousaccounts:
+            if account.have_account_code()==account_code:
+                return account
             return None
+        
+
+    def open_account(self, account_preference, account_code, account_holder, interest_rate, present_balance, more_param):
+        if account_preference=="Savings":
+            new_opened_account=savingsAccount(account_code, account_holder, interest_rate, present_balance, more_param)
+        elif account_preference=="Chequing":
+            new_opened_account=chequingAccount(account_code, account_holder, interest_rate, present_balance, more_param)
+        else:
+            print("*Not a valid account type*")
+            return
+        self.variousaccounts.append(new_opened_account)
+        print(F"*your new {account_preference} account has now been opened successfully*")
         
 
 app=Application()
