@@ -1,61 +1,61 @@
 
 
 class Account:
-     def __init__(self, account_number, account_holder, rate_of_interest, present_balance = 0):
-        self._account_number=account_number
-        self._account_holder=account_holder
-        self._present_balance=present_balance
-        self.rate_of_interest=rate_of_interest
+     def __init__(self, accountNumber, accountHolderName, rateOfinterest, currentBalance = 0):
+        self._accountNumber=accountNumber
+        self._accountHolderName=accountHolderName
+        self._currentBalance=currentBalance
+        self.rateOfinterest=rateOfinterest
 
-     def get_account_number(self):
-        return self._account_number
+     def getAccountNumber(self):
+        return self._accountNumber
     
-     def get_account_holder(self):
-         return self._account_holder
+     def getAccountHolderName(self):
+         return self._accountHolderName
      
-     def get_rate_of_interest(self):
-         return self._rate_of_interest
+     def getRateOfinterest(self):
+         return self._rateOfinterest
      
-     def get_present_balance(self):
-         return self._present_balance
+     def getCurrentBalance(self):
+         return self._currentBalance
 
-     def set_account_holder(self, recent_name):
+     def setAccountHolderName(self, recent_name):
          self._account_user_name=recent_name
 
-     def set_rate_of_interest(self, recent_rate):
-         self._rate_of_interest=recent_rate
+     def setRateOfinterest(self, recent_rate):
+         self._rateOfinterest=recent_rate
       
      def deposit(self, value):
-             self._present_balance+=value
-             return f"*Deposited {value} CAD | New balance: {self._present_balance:.2f}*"
+             self._currentBalance+=value
+             return f"*Deposited {value} CAD | New balance: {self._currentBalance:.2f}*"
      
      def wihtdraw(self, value):
-             self._present_balance-=value
-             return f"*Withdraw {value} CAD | New balance: {self._present_balance:.2f}"
+             self._currentBalance-=value
+             return f"*Withdraw {value} CAD | New balance: {self._currentBalance:.2f}"
         
 class savingsAccount(Account):
-    def __init__(self, account_number, account_holder, rate_of_interest, present_balance, minimum_bal):
-        super().__init__(account_number, account_holder, rate_of_interest, present_balance)
+    def __init__(self, accountNumber, accountHolderName, rateOfinterest, currentBalance, minimum_bal):
+        super().__init__(accountNumber, accountHolderName, rateOfinterest, currentBalance)
         self._minimum_bal=minimum_bal
 
     def withdraw(self, value):
-        if self._present_balance-value>=self._minimum_bal:
+        if self._currentBalance-value>=self._minimum_bal:
             super().withdraw(value)
-            return f"*Withdraw {value} CAD | New balance: {self.get_present_balance()}"
+            return f"*Withdraw {value} CAD | New balance: {self.getCurrentBalance()}"
         else:
             return"*Withdrawal rejected, insufficient funds to maintain the minimum balance*"
 
 class chequingAccount(Account):
-    def __init__(self, account_number, account_holder, rate_of_interest, present_balance, over_lim):
-        super().__init__(account_number, account_holder, rate_of_interest, present_balance)
+    def __init__(self, accountNumber, accountHolderName, rateOfinterest, currentBalance, over_lim):
+        super().__init__(accountNumber, accountHolderName, rateOfinterest, currentBalance)
         self._over_lim=over_lim
 
     def withdraw(self, value):
-        if value > self.get_present_balance()+self._over_lim:
+        if value > self.getCurrentBalance()+self._over_lim:
             return"*Withdrawal rejected, insufficient funds*"
         else:
             super().wihtdraw(value)
-            return f"*Withdrew {value} CAD. New balance: {self.get_present_balance()}"
+            return f"*Withdrew {value} CAD. New balance: {self.getCurrentBalance()}"
 class Application:
     def __init__(self):
         self.variousaccounts = []
@@ -82,8 +82,8 @@ class Application:
                 print("*Invalid option please enter the correct option*")
 
     def choosing_account(self):
-        account_number=input("Please enter the account number: ")
-        account=bank.find_account(account_number)
+        accountNumber=input("Please enter the account number: ")
+        account=bank.find_account(accountNumber)
         if account:
             self.presentAccount=account
             self.Show_Account_Menu()
@@ -92,10 +92,10 @@ class Application:
 
     def open_new_account(self):
         account_type=input("Please enter account type (Savings or Chequing): ")
-        account_number=input("Please enter the account number: ")
-        account_holder=input("Please enter the accounts owners name: ")
-        rate_of_interest=input("Please the rate of interest: ")
-        present_balance=input("Please enter the current balance: ")
+        accountNumber=input("Please enter the account number: ")
+        accountHolderName=input("Please enter the accounts owners name: ")
+        rateOfinterest=input("Please the rate of interest: ")
+        currentBalance=input("Please enter the current balance: ")
 
         if account_type=="Savings":
             more_param=float(input("Please enter the minimum amount for Savings account: "))
@@ -105,7 +105,7 @@ class Application:
             print("*Incorrect account type*")
             return
         
-        bank.open_new_account(account_type, account_number, account_holder, rate_of_interest, present_balance, more_param)
+        bank.open_new_account(account_type, accountNumber, accountHolderName, rateOfinterest, currentBalance, more_param)
         print(f"*New {account_type} account has opened successfully*")
 
     def Show_Account_Menu(self):
@@ -119,7 +119,7 @@ class Application:
             options=input("Please enter your choice (1,2,3 or 4): ")
 
             if options=='1':
-                print(f"Current Account Balance: ${self.presentAccount.get_present_balance()}")
+                print(f"Current Account Balance: ${self.presentAccount.getCurrentBalance()}")
             elif options=='2':
                 value = self.get_real_value("Please enter the amount you would like to deposit: $")
                 print(self.presentAccount.deposit(value))
@@ -159,23 +159,23 @@ class Bank:
         self.variousaccounts.append(savingsAccount("777888", "STU", 2, 4000, 1500))
         self.variousaccounts.append(savingsAccount("888999", "VWX", 3, 5000, 2500))
 
-    def find_account(self, account_number):
+    def find_account(self, accountNumber):
         for account in self.variousaccounts:
-            if account.get_account_number()==account_number:
+            if account.getAccountNumber()==accountNumber:
                 return account
             return None
         
 
-    def open_account(self, account_preference, account_code, account_holder, interest_rate, present_balance, more_param):
-        if account_preference=="Savings":
-            new_opened_account=savingsAccount(account_code, account_holder, interest_rate, present_balance, more_param)
-        elif account_preference=="Chequing":
-            new_opened_account=chequingAccount(account_code, account_holder, interest_rate, present_balance, more_param)
+    def open_new_account(self, account_type, accountNumber, accountHolderName, rateOfinterest, CurrentBalance, more_param):
+        if account_type=="Savings":
+            new_opened_account=savingsAccount(accountNumber, accountHolderName, rateOfinterest, CurrentBalance, more_param)
+        elif account_type=="Chequing":
+            new_opened_account=chequingAccount(accountNumber, accountHolderName, rateOfinterest, CurrentBalance, more_param)
         else:
             print("*Not a valid account type*")
             return
         self.variousaccounts.append(new_opened_account)
-        print(F"*your new {account_preference} account has now been opened successfully*")
+        print(F"*Your new {account_type} account has now been opened successfully*")
         
 
 app=Application()
