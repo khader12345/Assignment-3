@@ -34,15 +34,16 @@ class Account:
              return f"*Withdraw {value} CAD | New balance: {self._present_balance:.2f}"
         
 class savingsAccount(Account):
-    def __init__(self, account_code, account_holder, interest_rate, present_balance, minimum_bal):
-        super().__init__(account_code, account_holder, interest_rate, present_balance)
+    def __init__(self, account_code, account_holder, rate_of_interest, present_balance, minimum_bal):
+        super().__init__(account_code, account_holder, rate_of_interest, present_balance)
         self._minimum_bal=minimum_bal
 
     def withdraw(self, value):
         if self._present_balance-value>=self._minimum_bal:
             super().withdraw(value)
+            return f"*Withdraw {value} CAD | New balance: {self.get_present_balance()}"
         else:
-            print("*Withdrawal rejected, insufficient funds to maintain the minimum balance*")
+            return"*Withdrawal rejected, insufficient funds to maintain the minimum balance*"
 
 class chequingAccount(Account):
     def __init__(self, account_code, account_holder, interest_rate, present_balance, over_lim):
