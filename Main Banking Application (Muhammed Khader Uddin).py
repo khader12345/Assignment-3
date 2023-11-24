@@ -146,7 +146,7 @@ class Application:
     def run(self):
         self.Show_Main_Menu()
 
-class bank:
+class Bank:
     def __init__(self):
         self.variousaccounts=[]
 
@@ -159,9 +159,9 @@ class bank:
         self.variousaccounts.append(savingsAccount("777888", "STU", 2, 4000, 1500))
         self.variousaccounts.append(savingsAccount("888999", "VWX", 3, 5000, 2500))
 
-    def find_account(self, account_code):
+    def find_account(self, account_number):
         for account in self.variousaccounts:
-            if account.have_account_code()==account_code:
+            if account.get_account_number()==account_number:
                 return account
             return None
         
