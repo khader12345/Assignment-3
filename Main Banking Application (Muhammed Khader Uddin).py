@@ -26,11 +26,11 @@ class Account:
          self._rateOfinterest=recent_rate
       
      def deposit(self, value):
-         self._currentBalance+=value
+         self._currentBalance += value
          return f"*Deposit was sucessfull | New balance: {self._currentBalance:.2f}*"
      
-     def wihtdraw(self, value):
-         self._currentBalance-=value
+     def withdraw(self, value):
+         self._currentBalance -= value
          return f"*Withdraw was sucessfull | New balance: {self._currentBalance:.2f}"
         
 class savingsAccount(Account):
@@ -39,9 +39,9 @@ class savingsAccount(Account):
         self._minimum_bal=minimum_bal
 
     def withdraw(self, value):
-        if self._currentBalance-value>=self._minimum_bal:
-            super().wihtdraw(value)
-            return f"*Withdraw {value} CAD | New balance: {self.getCurrentBalance()}"
+        if self._currentBalance - value >= self._minimum_bal:
+            super().withdraw(value)
+            return f"Withdrew {value} CAD | New balance: {self.getCurrentBalance()}"
         else:
             return"*Withdrawal rejected, insufficient funds to maintain the minimum balance*"
 
@@ -54,9 +54,8 @@ class chequingAccount(Account):
         if value > self.getCurrentBalance() + self._over_lim:
             return"*Withdrawal rejected, insufficient funds*"
         else:
-            super().wihtdraw(value)
-            return f"*Withdrew {value} CAD. New balance: {self.getCurrentBalance()}"
-
+            super().withdraw(value)
+            return f"Withdrew {value} CAD | New balance: {self.getCurrentBalance()}"
 
 class Application:
     def __init__(self):
@@ -112,7 +111,7 @@ class Application:
 
     def Show_Account_Menu(self):
         while True:
-            print("\n*My Account:*")
+            print("\n*My Account*")
             print("1. Account Balance")
             print("2. Deposit Funds")
             print("3. Withdraw Funds")
@@ -126,7 +125,7 @@ class Application:
                 value = self.get_real_value("Please enter the amount you would like to deposit: $")
                 print(self.presentAccount.deposit(value))
             elif options=='3':
-                value = self.get_real_value(input("Please enter the amount you would like to withdraw: $"))
+                value = self.get_real_value("Please enter the amount you would like to withdraw: $")
                 print(self.presentAccount.withdraw(value))
             elif options=='4':
                 print("*You have now exited the account menu*")
