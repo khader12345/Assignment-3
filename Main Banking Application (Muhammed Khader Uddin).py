@@ -26,12 +26,12 @@ class Account:
          self._rateOfinterest=recent_rate
       
      def deposit(self, value):
-             self._currentBalance+=value
-             return f"*Deposited {value} CAD | New balance: {self._currentBalance:.2f}*"
+         self._currentBalance+=value
+         return f"*Deposit was sucessfull | New balance: {self._currentBalance:.2f}*"
      
      def wihtdraw(self, value):
-             self._currentBalance-=value
-             return f"*Withdraw {value} CAD | New balance: {self._currentBalance:.2f}"
+         self._currentBalance-=value
+         return f"*Withdraw was sucessfull | New balance: {self._currentBalance:.2f}"
         
 class savingsAccount(Account):
     def __init__(self, accountNumber, accountHolderName, rateOfinterest, currentBalance, minimum_bal):
@@ -40,7 +40,7 @@ class savingsAccount(Account):
 
     def withdraw(self, value):
         if self._currentBalance-value>=self._minimum_bal:
-            super().withdraw(value)
+            super().wihtdraw(value)
             return f"*Withdraw {value} CAD | New balance: {self.getCurrentBalance()}"
         else:
             return"*Withdrawal rejected, insufficient funds to maintain the minimum balance*"
@@ -51,19 +51,22 @@ class chequingAccount(Account):
         self._over_lim=over_lim
 
     def withdraw(self, value):
-        if value > self.getCurrentBalance()+self._over_lim:
+        if value > self.getCurrentBalance() + self._over_lim:
             return"*Withdrawal rejected, insufficient funds*"
         else:
             super().wihtdraw(value)
             return f"*Withdrew {value} CAD. New balance: {self.getCurrentBalance()}"
+
+
 class Application:
     def __init__(self):
-        self.bank = Bank()
+        self.variousaccounts=[]
+        self.presentAccount=None
 
     def Show_Main_Menu(self):
         while True:
             print("\n*Banking Main Menu*")
-            print("1. Select Account: ")
+            print("1. Select Account (user must open an account first to be registered in the bank): ")
             print("2. Open Account: ")
             print("3. Exit")
 
@@ -82,19 +85,19 @@ class Application:
 
     def choosing_account(self):
         accountNumber=input("Please enter the account number: ")
-        account=self.bank.find_account(accountNumber)
+        account=bank.find_account(accountNumber)
         if account:
             self.presentAccount=account
             self.Show_Account_Menu()
         else:
-            print(*"Account not found please enter the correct account number*")
+            print("*Account not found please enter the correct account number*")
 
     def open_new_account(self):
         account_type=input("Please enter account type (Savings or Chequing): ")
         accountNumber=input("Please enter the account number: ")
         accountHolderName=input("Please enter the accounts owners name: ")
-        rateOfinterest=input("Please enter the rate of interest: ")
-        currentBalance=input("Please enter the current balance: ")
+        rateOfinterest=float(input("Please enter the rate of interest: "))
+        currentBalance=float(input("Please enter the current balance: "))
 
         if account_type=="Savings":
             more_param=float(input("Please enter the minimum amount for Savings account: "))
@@ -162,7 +165,7 @@ class Bank:
         for account in self.variousaccounts:
             if account.getAccountNumber()==accountNumber:
                 return account
-            return None
+        return None
         
 
     def open_new_account(self, account_type, accountNumber, accountHolderName, rateOfinterest, CurrentBalance, more_param):
@@ -177,14 +180,11 @@ class Bank:
         print(F"*Your new {account_type} account has now been opened successfully*")
 
 
-if __name__=="_main_":
+if __name__ == "__main__":
     bank=Bank()
 
     bank_app=Application()
-    bank_app.variousaccounts=bank.variousaccounts
+    bank_app.variousaccounts = bank.variousaccounts
         
-
-app=Application()
-app.run()
-
+    bank_app.run()
 
